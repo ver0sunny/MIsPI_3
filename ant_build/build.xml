@@ -1,31 +1,93 @@
 <?xml version="1.0"?>
-<project name="poki" default="run">
+<project name="Main" default="run">
     <!-- define names of directories -->
     <property name="src" location="../src"/>
     <property name="build" location="build"/>
     <property name="classes" location="${build}/classes"/>
-    <!-- define all targets -->
-    <available classname="org.apache.ivy.Main" property="ivy.installed"/>
-    <target name="install-ivy" description="Install ivy" unless="ivy.installed">
-        <mkdir dir="${user.home}/.ant/lib"/>
-        <get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>
-        <fail message="Ivy has been installed. Run the build again"/>
+    <property name="comp-tests" location="${build}/tests"/>
+    <property name="jarnik" location="lib/Pokemon.jar"/>
+    <property name="jared_dir" location="${build}/jar"/>
+    <property name="tests" location="tests"/>
+
+<!--    <available classname="org.junit.runner.Runner" property="junit.installed"/>-->
+<!--    <target name="install-junit" description="Install junit" unless="junit.installed">-->
+<!--        <mkdir dir="lib/juint"/>-->
+<!--        <get dest="lib/juint/ant-junit.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ant/ant-junit/1.9.4/ant-junit-1.9.4.jar"/>-->
+<!--        <get dest="lib/juint/junit.jar" src="http://search.maven.org/remotecontent?filepath=junit/junit/4.11/junit-4.11.jar"/>-->
+<!--        <fail message="Ivy has been installed. Run the build again"/>-->
+<!--    </target>-->
+
+    <target name="print-version">
+        <echo>Java/JVM version: ${ant.java.version}</echo>
+        <echo>Java/JVM detail version: ${java.version}</echo>
     </target>
-    <target name="compile">
+
+    <target name="compile" depends="compile-tests">
         <mkdir dir="${classes}"/>
-        <javac srcdir="${src}" destdir="${classes}" includeAntRuntime="false"/>
+        <javac srcdir="${src}" destdir="${classes}" includeAntRuntime="false">
+            <classpath>
+                <pathelement path="${jarnik}"/>
+            </classpath>
+        </javac>
     </target>
-    <target name="run" depends="compile">
-        <java classname="${ant.project.name}" classpath="${classes}"/>
+
+    <target name="compile-tests">
+        <mkdir dir="${comp-tests}"/>
+        <javac srcdir="${tests}" destdir="${comp-tests}" includeAntRuntime="false">
+            <classpath>
+                <pathelement location="${tests}"/>
+                <pathelement location="lib/junit-4.13.jar"/>
+                <pathelement location="lib/hamcrest-core-1.3.jar"/>
+                <pathelement location="lib/ant-1.10.8.jar"/>
+                <pathelement path="${java.class.path}"/>
+            </classpath>
+        </javac>
     </target>
-    <target name="clean">
-        <delete dir="${build}"/>
-    </target>
+
+
     <target name="package" depends="compile">
-        <jar destfile="${build}/${ant.project.name}.jar" basedir="${classes}">
+        <jar destfile="${jared_dir}/Main.jar" basedir="${classes}">
+            <zipgroupfileset dir="lib" includes="Pokemon.jar"/>
             <manifest>
-                <attribute name="Main–Class" value="${ant.project.name}"/>
+                <attribute name="Main" value="main"/>
+                <attribute name="Main-Class" value="${ant.project.name}"/>
             </manifest>
         </jar>
     </target>
+
+
+    <target name="juint-test" depends="compile">
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement location="${comp-tests}"/>
+                <pathelement location="lib/junit-4.13.jar"/>
+                <pathelement location="lib/hamcrest-core-1.3.jar"/>
+                <pathelement location="lib/ant-1.10.8.jar"/>
+            </classpath>
+            <test name="${comp-tests}/TestMessage" haltonfailure="no"
+                  outfile="result">
+                <formatter type="plain"/>
+            </test>
+        </junit>
+    </target>
+
+
+    <!--    <target name="test" depends="compile">-->
+    <!--        <junit>-->
+    <!--            <classpath>-->
+    <!--                <pathelement location="${classes}"/>-->
+    <!--            </classpath>-->
+    <!--            <test name="TestMessage"/>-->
+    <!--        </junit>-->
+    <!--    </target>-->
+
+    <target name="run" depends="package">
+        <jar destfile="${build}/${ant.project.name}.jar" basedir="${classes}"/>
+        <java jar="${jared_dir}/Main.jar" fork="true"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+    </target>
+
 </project>

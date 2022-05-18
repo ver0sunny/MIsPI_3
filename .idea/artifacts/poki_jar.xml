@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/poki_jar</output-path>
     <root id="archive" name="poki.jar">
       <element id="module-output" name="poki" />
-      <element id="extracted-dir" path="$USER_HOME$/Documents/STUDY/прога/Pokemon.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/ant_build/lib/Pokemon.jar" />
     </root>
   </artifact>
 </component>
