@@ -8,6 +8,13 @@
     <property name="jarnik" location="lib/Pokemon.jar"/>
     <property name="jared_dir" location="${build}/jar"/>
     <property name="tests" location="tests"/>
+    <property name="ascii-before" location="${src}/local"/>
+    <property name="ascii-after" location="${src}/local-uni"/>
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="lib/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
 
     <!--    <available classname="org.junit.runner.Runner" property="junit.installed"/>-->
     <!--    <target name="install-junit" description="Install junit" unless="junit.installed">-->
@@ -85,9 +92,81 @@
         <java jar="${jared_dir}/Main.jar" fork="true"/>
     </target>
 
+    <target name="native2ascii">
+        <native2ascii src="${ascii-before}" dest="${ascii-after}"
+                      includes="*.properties" ext=".properties"/>
+    </target>
+
 
     <target name="history">
+        <exec executable="git" outputproperty="commits.count">
+            <arg value="rev-list"/>
+            <arg value="--count"/>
+            <arg value="HEAD"/>
+        </exec>
 
+        <exec executable="git" outputproperty="current.commit">
+            <arg value="rev-parse"/>
+            <arg value="HEAD"/>
+        </exec>
+
+        <exec executable="git" outputproperty="current.work_diff">
+            <arg value="diff"/>
+            <arg value="HEAD"/>
+        </exec>
+
+        <if>
+            <length string="${current.work_diff}" length="0" trim="true" when="greater"/>
+            <then>
+                <fail message="Working tree should not have changes"/>
+            </then>
+        </if>
+
+        <trycatch>
+            <try>
+                <for param="i" begin="1" end="${commits.count}">
+                    <sequential>
+                        <trycatch>
+                            <try>
+                                <antcall target="compile"/>
+                                <property name="breakProperty" value="true"/>
+                            </try>
+                            <catch>
+                                <exec executable="git" outputproperty="previous.commit">
+                                    <arg value="rev-parse"/>
+                                    <arg value="HEAD"/>
+                                </exec>
+                                <echo>Error in compile target</echo>
+                                <exec executable="git">
+                                    <arg value="reset"/>
+                                    <arg value="--hard"/>
+                                    <arg value="HEAD~1"/>
+                                </exec>
+                            </catch>
+                            <finally>
+                                <fail if="breakProperty"/>
+                            </finally>
+                        </trycatch>
+                    </sequential>
+                </for>
+            </try>
+            <catch>
+                <echo>Finally</echo>
+            </catch>
+            <finally>
+                <if>
+                    <isset property="previous.commit"/>
+                    <then>
+                        <exec executable="git">
+                            <arg value="diff"/>
+                            <arg value="${previous.commit}"/>
+                            <redirector output="diff.txt" alwayslog="true"/>
+                        </exec>
+                    </then>
+                </if>
+                <echo>Original commit: ${current.commit}</echo>
+            </finally>
+        </trycatch>
     </target>
 
     <target name="clean">
