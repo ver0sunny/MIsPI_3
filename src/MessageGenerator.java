@@ -3,7 +3,7 @@ public class MessageGenerator {
         MessageGenerator hello = new MessageGenerator();
         System.out.println(hello.sayWelcome());
     }
-    String sayWelcome() {
+    public String sayWelcome() {
         return "welcome";
     }
 }
