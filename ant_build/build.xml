@@ -129,7 +129,7 @@
                         <trycatch>
                             <try>
                                 <antcall target="compile"/>
-                                <property name="breakProperty" value="true"/>
+                                <property name="breakProperty"/>
                             </try>
                             <catch>
                                 <exec executable="git" outputproperty="previous.commit">
