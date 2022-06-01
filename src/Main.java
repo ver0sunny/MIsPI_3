@@ -3,7 +3,7 @@ import ru.ifmo.se.pokemon.Battle;
 public class Main {
 
     public static void main(String[] args) {
-        MessageGenerator messageGenerator = new MessageGenerator();
+//        MessageGenerator messageGenerator = new MessageGenerator();
         messageGenerator.sayWelcome();
 //        Battle battleRoyal = new Battle();
 
