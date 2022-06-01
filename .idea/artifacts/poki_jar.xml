@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="poki:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/poki_jar</output-path>
-    <root id="archive" name="poki.jar">
-      <element id="module-output" name="poki" />
-      <element id="file-copy" path="$PROJECT_DIR$/ant_build/lib/Pokemon.jar" />
-    </root>
-  </artifact>
-</component>
