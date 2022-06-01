@@ -4,7 +4,8 @@ public class Main {
 
     public static void main(String[] args) {
         MessageGenerator messageGenerator = new MessageGenerator();
-        messageGenerator.sayWelcome();
+        String user = "VER0IVAN";
+        messageGenerator.sayWelcome(user);
         Battle battleRoyal = new Battle();
 
         battleRoyal.addAlly(new Nidoran("ARA-ARA", 1));

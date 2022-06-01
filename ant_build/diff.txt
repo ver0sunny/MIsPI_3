@@ -1,10 +1,26 @@
+diff --git a/ant_build/build.xml b/ant_build/build.xml
+index 6c77716..026a74a 100644
+--- a/ant_build/build.xml
++++ b/ant_build/build.xml
+@@ -129,7 +129,7 @@
+                         <trycatch>
+                             <try>
+                                 <antcall target="compile"/>
+-                                <property name="breakProperty" value="true"/>
++                                <property name="breakProperty"/>
+                             </try>
+                             <catch>
+                                 <exec executable="git" outputproperty="previous.commit">
 diff --git a/src/Main.java b/src/Main.java
-index 71b3407..d90f4aa 100644
+index 9f7218e..d90f4aa 100644
 --- a/src/Main.java
 +++ b/src/Main.java
-@@ -5,7 +5,7 @@ public class Main {
+@@ -3,9 +3,9 @@ import ru.ifmo.se.pokemon.Battle;
+ public class Main {
+ 
      public static void main(String[] args) {
-         MessageGenerator messageGenerator = new MessageGenerator();
+-//        MessageGenerator messageGenerator = new MessageGenerator();
++        MessageGenerator messageGenerator = new MessageGenerator();
          messageGenerator.sayWelcome();
 -//        Battle battleRoyal = new Battle();
 +        Battle battleRoyal = new Battle();

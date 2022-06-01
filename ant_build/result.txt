@@ -1,4 +1,30 @@
 Testsuite: TestMessage
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.007 sec
+Tests run: 6, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 0.013 sec
 
-Testcase: test_welcome_message took 0.002 sec
+Testcase: paramTest[0:checkEqual(welcome, Ivan = welcome, Ivan)] took 0.003 sec
+Testcase: paramTest[1:checkEqual(welcome, Veronica = welcome, Veronica)] took 0 sec
+Testcase: paramTest[2:checkEqual(welcome, Alexey = welcome, Alexey)] took 0 sec
+Testcase: paramTest[3:checkEqual(welcome, Ivan = welcme, Ivan)] took 0.003 sec
+	FAILED
+failure - strings are not equal expected:<welc[]me, Ivan> but was:<welc[o]me, Ivan>
+junit.framework.AssertionFailedError: failure - strings are not equal expected:<welc[]me, Ivan> but was:<welc[o]me, Ivan>
+	at TestMessage.paramTest(Unknown Source)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+
+Testcase: paramTest[4:checkEqual(welcome, Veronica = elcome, Vronica)] took 0 sec
+	FAILED
+failure - strings are not equal expected:<[elcome, V]ronica> but was:<[welcome, Ve]ronica>
+junit.framework.AssertionFailedError: failure - strings are not equal expected:<[elcome, V]ronica> but was:<[welcome, Ve]ronica>
+	at TestMessage.paramTest(Unknown Source)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+
+Testcase: paramTest[5:checkEqual(welcome, Alexey = welcome, Aleey)] took 0 sec
+	FAILED
+failure - strings are not equal expected:<welcome, Ale[]ey> but was:<welcome, Ale[x]ey>
+junit.framework.AssertionFailedError: failure - strings are not equal expected:<welcome, Ale[]ey> but was:<welcome, Ale[x]ey>
+	at TestMessage.paramTest(Unknown Source)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+
