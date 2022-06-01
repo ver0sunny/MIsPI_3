@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         MessageGenerator messageGenerator = new MessageGenerator();
         messageGenerator.sayWelcome();
-        Battle battleRoyal = new Battle();
+//        Battle battleRoyal = new Battle();
 
         battleRoyal.addAlly(new Nidoran("ARA-ARA", 1));
         battleRoyal.addAlly(new Nidoqueen("QUEEN", 4));
